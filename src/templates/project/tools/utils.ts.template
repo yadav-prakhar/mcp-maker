@@ -1,0 +1,42 @@
+/**
+ * Tool utility functions
+ */
+
+/**
+ * Create a standardized tool response
+ * @param data - The data to include in the response
+ * @param error - Optional error message
+ * @returns The formatted tool response
+ */
+export function createToolResponse(data: any, error?: string) {
+  if (error) {
+    return {
+      content: [
+        {
+          type: 'error',
+          text: error,
+        },
+      ],
+    };
+  }
+
+  if (typeof data === 'string') {
+    return {
+      content: [
+        {
+          type: 'text',
+          text: data,
+        },
+      ],
+    };
+  }
+
+  return {
+    content: [
+      {
+        type: 'text',
+        text: JSON.stringify(data, null, 2),
+      },
+    ],
+  };
+}

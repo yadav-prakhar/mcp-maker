@@ -1,0 +1,11 @@
+/**
+ * {{pascalName}} Tool exports
+ */
+import { Tool } from "@modelcontextprotocol/sdk/types.js";
+import { {{camelName}}Tool, handle{{pascalName}} } from "./{{fileName}}.js";
+
+// Export the tool and handler
+export { {{camelName}}Tool, handle{{pascalName}} };
+
+// Export as an array for the main tools index
+export const {{camelName}}Tools: Tool[] = [{{camelName}}Tool];

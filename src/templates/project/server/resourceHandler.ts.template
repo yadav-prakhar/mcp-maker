@@ -1,0 +1,38 @@
+/**
+ * MCP Server resource request handlers
+ */
+import { ListResourcesRequestSchema, GetResourceRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { serverResources } from '../resources/index.js';
+import { logger } from '../utils/logger.js';
+
+/**
+ * Set up the resource handlers for the MCP server
+ * @param server - The MCP server instance
+ */
+export function setupResourceHandlers(server: any): void {
+  // Resource: List available resources
+  server.setRequestHandler(ListResourcesRequestSchema, async () => {
+    return {
+      resources: serverResources.map((resource) => ({
+        uri: resource.uri,
+        description: resource.description,
+      })),
+    };
+  });
+
+  // Resource: Get a specific resource
+  server.setRequestHandler(GetResourceRequestSchema, async (request: any) => {
+    const { uri } = request.params;
+
+    // Find the requested resource
+    const resource = serverResources.find((r) => r.uri === uri);
+    if (!resource) {
+      logger.error('Resource not found', { uri });
+      throw new Error(`Resource not found: ${uri}`);
+    }
+
+    return {
+      content: resource.content,
+    };
+  });
+}

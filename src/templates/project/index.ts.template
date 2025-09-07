@@ -1,0 +1,50 @@
+/**
+ * MCP Server entry point
+ */
+import { setupRequestHandlers } from './server/toolHandler.js';
+import { setupPromptHandlers } from './server/promptHandler.js';
+import { setupResourceHandlers } from './server/resourceHandler.js';
+
+// Configure the server
+const serverConfig = {
+  {{#if http}}
+  transport: {
+    type: "http-stream",
+    options: {
+      port: {{port}}{{#if cors}},
+      cors: {
+        allowOrigin: "*"
+      }{{/if}}
+    }
+  }
+  {{/if}}
+};
+
+// Initialize the server
+async function startServer() {
+  try {
+    console.log('Starting {{name}} MCP server...');
+    
+    // Import the MCP server dynamically to avoid issues with ESM
+    const { MCPServer } = await import('@modelcontextprotocol/sdk');
+    
+    // Create the server instance
+    const server = new MCPServer(serverConfig);
+    
+    // Set up request handlers
+    setupRequestHandlers(server);
+    setupPromptHandlers(server);
+    setupResourceHandlers(server);
+    
+    // Start the server
+    await server.start();
+    
+    console.log('{{name}} MCP server started successfully');
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+// Start the server
+startServer();

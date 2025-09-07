@@ -1,0 +1,23 @@
+/**
+ * Tools exports and definitions
+ * This file re-exports all tools and handlers from the modular structure
+ */
+import { Tool } from '@modelcontextprotocol/sdk/types.js';
+
+// Import from modular structure
+{{#each toolExports}}
+import { {{this}} } from './{{@key}}/index.js';
+{{/each}}
+
+// Re-export everything
+export * from './utils.js';
+{{#each toolExports}}
+export * from './{{@key}}/index.js';
+{{/each}}
+
+// Export all tools combined
+export const serverTools: Tool[] = [
+  {{#each toolArrays}}
+  ...{{this}},
+  {{/each}}
+];

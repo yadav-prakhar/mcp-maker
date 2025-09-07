@@ -1,0 +1,7 @@
+/**
+ * {{pascalName}} Service exports
+ */
+import { {{camelName}}Service } from "./{{fileName}}.js";
+
+// Export the service
+export { {{camelName}}Service };

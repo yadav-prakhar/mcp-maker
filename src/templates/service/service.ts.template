@@ -1,0 +1,19 @@
+/**
+ * {{pascalName}} Service
+ */
+import { logger } from "../../utils/logger.js";
+
+/**
+ * {{description}}
+ * 
+ * @param input - The input data
+ * @returns The processed result
+ */
+export async function {{camelName}}Service(input: string): Promise<string> {
+  logger.info("{{pascalName}} service called", { input });
+  
+  // Process the input
+  const result = `Service processed: ${input}`;
+  
+  return result;
+}

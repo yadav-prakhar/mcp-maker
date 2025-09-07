@@ -1,0 +1,8 @@
+/**
+ * Resources exports
+ * This file exports all resources from the modular structure
+ */
+import { Resource } from '@modelcontextprotocol/sdk/types.js';
+
+// Export all resources
+export const serverResources: Resource[] = [];

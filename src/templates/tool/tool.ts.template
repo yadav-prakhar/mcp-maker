@@ -1,0 +1,43 @@
+/**
+ * {{pascalName}} Tool
+ */
+import { Tool } from "@modelcontextprotocol/sdk/types.js";
+import { logger } from "../../utils/logger.js";
+
+/**
+ * Tool definition for {{name}}
+ */
+export const {{camelName}}Tool: Tool = {
+  name: "{{name}}",
+  description: "{{description}}",
+  inputSchema: {
+    type: "object",
+    properties: {
+      message: {
+        type: "string",
+        description: "Message to process",
+      },
+    },
+    required: ["message"],
+  },
+};
+
+/**
+ * Handle the {{name}} tool
+ */
+export async function handle{{pascalName}}(args: { message: string }) {
+  const { message } = args;
+  logger.info("Processing message", { message });
+
+  // Process the message
+  const result = `Processed: ${message}`;
+
+  return {
+    content: [
+      {
+        type: "text",
+        text: result,
+      },
+    ],
+  };
+}

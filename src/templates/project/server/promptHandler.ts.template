@@ -1,0 +1,18 @@
+/**
+ * MCP Server prompt request handlers
+ */
+import { ListPromptsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { serverPrompts } from '../prompts/index.js';
+
+/**
+ * Set up the prompt handlers for the MCP server
+ * @param server - The MCP server instance
+ */
+export function setupPromptHandlers(server: any): void {
+  // Prompt: List available prompts
+  server.setRequestHandler(ListPromptsRequestSchema, async () => {
+    return {
+      prompts: serverPrompts,
+    };
+  });
+}

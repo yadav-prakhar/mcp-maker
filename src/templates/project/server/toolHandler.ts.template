@@ -1,0 +1,51 @@
+/**
+ * MCP Server tool request handlers
+ */
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { logger } from '../utils/logger.js';
+import { createToolResponse } from '../tools/utils.js';
+import { serverTools } from '../tools/index.js';
+
+// Import all tool handlers
+{{#each toolImports}}
+import { {{this}} } from '../tools/{{@key}}/index.js';
+{{/each}}
+
+/**
+ * Set up the request handlers for the MCP server
+ * @param server - The MCP server instance
+ */
+export function setupRequestHandlers(server: any): void {
+  // Tool: List available tools
+  server.setRequestHandler(ListToolsRequestSchema, async () => {
+    return {
+      tools: serverTools,
+    };
+  });
+
+  // Tool: Handle tool execution
+  server.setRequestHandler(CallToolRequestSchema, async (request: any) => {
+    const { name, arguments: args } = request.params;
+
+    // Validate that the tool exists
+    const toolExists = serverTools.some((tool) => tool.name === name);
+    if (!toolExists) {
+      return createToolResponse(null, `Unknown tool: ${name}`);
+    }
+
+    try {
+      switch (name) {
+        {{#each toolHandlers}}
+        case "{{name}}":
+          return await {{handler}}(args as {{inputType}});
+        {{/each}}
+
+        default:
+          throw new Error(`Unknown tool: ${name}`);
+      }
+    } catch (error) {
+      logger.error('Tool execution failed', { tool: name, error });
+      return createToolResponse(null, String(error));
+    }
+  });
+}

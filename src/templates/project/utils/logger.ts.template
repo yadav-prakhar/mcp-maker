@@ -1,0 +1,46 @@
+/**
+ * Logger utility
+ */
+
+/**
+ * Simple logger implementation
+ */
+export const logger = {
+  /**
+   * Log an info message
+   * @param message - The message to log
+   * @param data - Optional data to include
+   */
+  info(message: string, data?: any) {
+    console.log(`[INFO] ${message}`, data ? data : '');
+  },
+
+  /**
+   * Log a warning message
+   * @param message - The message to log
+   * @param data - Optional data to include
+   */
+  warn(message: string, data?: any) {
+    console.warn(`[WARN] ${message}`, data ? data : '');
+  },
+
+  /**
+   * Log an error message
+   * @param message - The message to log
+   * @param data - Optional data to include
+   */
+  error(message: string, data?: any) {
+    console.error(`[ERROR] ${message}`, data ? data : '');
+  },
+
+  /**
+   * Log a debug message
+   * @param message - The message to log
+   * @param data - Optional data to include
+   */
+  debug(message: string, data?: any) {
+    if (process.env.DEBUG) {
+      console.debug(`[DEBUG] ${message}`, data ? data : '');
+    }
+  },
+};

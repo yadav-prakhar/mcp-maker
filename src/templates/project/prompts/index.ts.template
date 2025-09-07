@@ -1,0 +1,8 @@
+/**
+ * Prompts exports
+ * This file exports all prompts from the modular structure
+ */
+import { Prompt } from '@modelcontextprotocol/sdk/types.js';
+
+// Export all prompts
+export const serverPrompts: Prompt[] = [];

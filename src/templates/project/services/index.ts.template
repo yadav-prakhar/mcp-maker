@@ -1,0 +1,9 @@
+/**
+ * Services exports
+ * This file re-exports all services from the modular structure
+ */
+
+// Re-export from modular structure
+{{#each serviceExports}}
+export * from './{{@key}}/index.js';
+{{/each}}
