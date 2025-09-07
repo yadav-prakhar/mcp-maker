@@ -2,7 +2,26 @@
   "name": "mcp-maker",
   "version": "0.1.0",
   "description": "CLI utility to create TypeScript MCP servers in modular structure.",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "cli",
+    "typescript",
+    "server",
+    "generator"
+  ],
+  "homepage": "https://github.com/yadav-prakhar/mcp-maker#readme",
+  "bugs": {
+    "url": "https://github.com/yadav-prakhar/mcp-maker/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yadav-prakhar/mcp-maker.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Prakhar Yadav <codewithp.dev@gmail.com>",
   "type": "module",
+  "main": "./dist/index.js",
   "bin": {
     "mcp-maker": "./dist/index.js"
   },
