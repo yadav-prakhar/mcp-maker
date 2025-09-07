@@ -31,8 +31,10 @@ Whether you're creating a new MCP server from scratch or adding tools and servic
 - **Automated Tool Creation**: Add new tools with proper structure and automatic registration in the toolHandler
 - **Service Management**: Add new services with proper structure and automatic registration
 - **Consistent Structure**: Ensures all projects follow the same structure and patterns
-- **Customization Options**: Configure transport options, CORS settings, and more
-- **Automatic File Updates**: When adding tools or services, relevant index files and handlers are automatically updated
+- **TypeScript Support**: Full TypeScript support with proper type definitions
+- **Interactive CLI**: User-friendly command-line interface with helpful prompts
+- **Template-based Generation**: Uses Handlebars templates for consistent code generation
+- **Automatic Dependency Management**: Handles npm dependencies and TypeScript configuration
 
 ## 📥 Installation
 
@@ -41,7 +43,7 @@ Whether you're creating a new MCP server from scratch or adding tools and servic
 - Node.js (>= 18.19.0)
 - npm (>= 7.0.0)
 
-### Global Installation
+### Global Installation (Recommended)
 
 ```bash
 npm install -g mcp-maker
@@ -50,7 +52,7 @@ npm install -g mcp-maker
 ### Local Installation
 
 ```bash
-npm install mcp-maker
+npm install --save-dev mcp-maker
 ```
 
 ## 🔧 Usage
@@ -58,7 +60,7 @@ npm install mcp-maker
 ### Create a New MCP Server
 
 ```bash
-mcp create server [name] [options]
+mcp create server <name> [options]
 ```
 
 #### Options
@@ -67,6 +69,7 @@ mcp create server [name] [options]
 - `--cors`: Enable CORS with wildcard (*) access
 - `--port <number>`: Specify HTTP port (only valid with --http)
 - `--no-install`: Skip npm install and build steps
+- `-h, --help`: Display help for the command
 
 #### Example
 
@@ -79,8 +82,11 @@ This will create a new MCP server project named `my-mcp-server` with HTTP transp
 ### Add a Tool
 
 ```bash
-mcp add tool [name]
+mcp add tool <name> [options]
 ```
+
+#### Options
+- `-h, --help`: Display help for the command
 
 #### Example
 
@@ -98,92 +104,70 @@ This will:
 ### Add a Service
 
 ```bash
-mcp add service [name]
+mcp add service <name> [options]
 ```
+
+#### Options
+- `-h, --help`: Display help for the command
 
 #### Example
 
 ```bash
 cd my-mcp-server
-mcp add service user-management
+mcp add service user-service
 ```
 
 This will:
-1. Create a new service directory in `src/services/user-management`
+1. Create a new service directory in `src/services/user-service`
 2. Create the service implementation and index files
 3. Update the main services index to include the new service
+4. Set up proper TypeScript types and interfaces
 
-## 📁 Project Structure
+## 🏗️ Project Structure (Generated MCP Server)
 
-The generated MCP server follows this structure:
+The `mcp-maker` CLI scaffolds a new MCP server project with the following structure:
 
 ```
 my-mcp-server/
 ├── src/
-│   ├── server/
-│   │   ├── toolHandler.ts
-│   │   ├── promptHandler.ts
-│   │   └── resourceHandler.ts
-│   ├── tools/
-│   │   ├── index.ts
-│   │   └── utils.ts
-│   ├── services/
-│   │   └── index.ts
-│   ├── utils/
-│   │   └── logger.ts
-│   ├── prompts/
-│   │   └── index.ts
-│   ├── resources/
-│   │   └── index.ts
-│   └── index.ts
-├── package.json
-├── tsconfig.json
+│   ├── tools/             # Individual tools
+│   │   └── <tool-name>/   # Each tool in its own directory
+│   │       ├── index.ts   # Tool implementation
+│   │       └── types.ts   # Type definitions for the tool
+│   │
+│   ├── services/          # Service implementations
+│   │   └── <service-name>/ # Each service in its own directory
+│   │       ├── index.ts   # Service implementation
+│   │       └── types.ts   # Type definitions for the service
+│   │
+│   ├── types/             # Global TypeScript type definitions
+│   ├── utils/             # Utility functions
+│   ├── config.ts          # Configuration
+│   └── index.ts           # Main entry point
+├── tests/                 # Test files
+├── .gitignore
+├── package.json           # Project configuration and dependencies
+├── tsconfig.json          # TypeScript configuration
 └── README.md
 ```
 
-When you add a tool or service, it creates a dedicated directory with the appropriate files:
+This structure ensures consistency across all MCP server projects created with `mcp-maker`.
 
-```
-# For a tool named "get-user-data":
-src/tools/get-user-data/
-├── get-user-data.ts
-└── index.ts
+## 🗂️ Repository Structure
 
-# For a service named "user-management":
-src/services/user-management/
-├── user-management.ts
-└── index.ts
-```
+This repository contains the following files and directories:
 
-## 👥 Contributing
+* `src/`: The source code for the `mcp-maker` CLI utility.
+* `tests/`: Test files for the `mcp-maker` CLI utility.
+* `README.md`: This file, which provides an overview of the `mcp-maker` CLI utility.
+* `LICENSE`: The license under which this project is released.
+* `CONTRIBUTING.md`: Guidelines for contributing to this project.
+* [`DEVELOPMENT.md`](DEVELOPMENT.md): Guidelines for developing and testing this project.
+* [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md): The code of conduct for this project.
 
-Contributions are welcome! Here's how you can contribute:
+## 🤝 Contributing
 
-1. **Fork the repository**
-2. **Create a feature branch**:
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Commit your changes**:
-   ```bash
-   git commit -m 'Add some amazing feature'
-   ```
-4. **Push to the branch**:
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-5. **Open a Pull Request**
-
-Please make sure your code follows the existing style and includes appropriate tests.
-
-### Development Setup
-
-```bash
-git clone https://github.com/yourusername/mcp-cli.git
-cd mcp-cli
-npm install
-npm run build
-```
+We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines, including branch naming conventions and pull‑request requirements.
 
 ## 📄 License
 

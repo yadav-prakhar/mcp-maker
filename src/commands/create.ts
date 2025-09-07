@@ -5,6 +5,7 @@ import prompts from 'prompts';
 import chalk from 'chalk';
 import { execa } from 'execa';
 import Handlebars from 'handlebars';
+import { fileURLToPath } from 'url';
 
 /**
  * Create a new MCP server project
@@ -56,6 +57,7 @@ export async function createServer(
   const utilsDir = path.join(srcDir, 'utils');
   const promptsDir = path.join(srcDir, 'prompts');
   const resourcesDir = path.join(srcDir, 'resources');
+  const configDir = path.join(srcDir, 'config');
 
   try {
     console.log(chalk.blue('Creating project structure...'));
@@ -69,6 +71,7 @@ export async function createServer(
     await fs.mkdir(utilsDir);
     await fs.mkdir(promptsDir);
     await fs.mkdir(resourcesDir);
+    await fs.mkdir(configDir);
 
     // Create package.json
     const packageJson = {
@@ -82,7 +85,9 @@ export async function createServer(
         start: 'node dist/index.js',
       },
       dependencies: {
-        '@modelcontextprotocol/sdk': '^0.2.0',
+        "@modelcontextprotocol/sdk": "^1.17.5",
+        "pino": "^8.18.0",
+        "pino-pretty": "^10.3.1",
       },
       devDependencies: {
         '@types/node': '^20.11.24',
@@ -121,7 +126,7 @@ logs
 `;
 
     // Get the template directory
-    const templateDir = path.join(__dirname, '..', 'templates', 'project');
+    const templateDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'templates', 'project');
     
     // Read and compile templates
     const indexTemplate = await fs.readFile(path.join(templateDir, 'index.ts.template'), 'utf-8');
@@ -153,6 +158,12 @@ logs
     
     const loggerTemplate = await fs.readFile(path.join(templateDir, 'utils', 'logger.ts.template'), 'utf-8');
     const compiledLoggerTemplate = Handlebars.compile(loggerTemplate);
+    
+    const serverUtilsTemplate = await fs.readFile(path.join(templateDir, 'utils', 'serverUtils.ts.template'), 'utf-8');
+    const compiledServerUtilsTemplate = Handlebars.compile(serverUtilsTemplate);
+    
+    const configTemplate = await fs.readFile(path.join(templateDir, 'config', 'index.ts.template'), 'utf-8');
+    const compiledConfigTemplate = Handlebars.compile(configTemplate);
 
     // Prepare template data
     const templateData = {
@@ -184,6 +195,8 @@ logs
       fs.writeFile(path.join(promptsDir, 'index.ts'), compiledPromptsIndexTemplate(templateData)),
       fs.writeFile(path.join(resourcesDir, 'index.ts'), compiledResourcesIndexTemplate(templateData)),
       fs.writeFile(path.join(utilsDir, 'logger.ts'), compiledLoggerTemplate(templateData)),
+      fs.writeFile(path.join(utilsDir, 'serverUtils.ts'), compiledServerUtilsTemplate(templateData)),
+      fs.writeFile(path.join(configDir, 'index.ts'), compiledConfigTemplate(templateData)),
     ];
 
     await Promise.all(filesToWrite);

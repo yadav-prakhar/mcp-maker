@@ -3,7 +3,7 @@
  */
 import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { logger } from '../utils/logger.js';
-import { createToolResponse } from '../tools/utils.js';
+import { createToolResponse } from '../utils/serverUtils.js';
 import { serverTools } from '../tools/index.js';
 
 // Import all tool handlers

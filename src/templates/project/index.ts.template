@@ -1,6 +1,8 @@
 /**
  * MCP Server entry point
  */
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { setupRequestHandlers } from './server/toolHandler.js';
 import { setupPromptHandlers } from './server/promptHandler.js';
 import { setupResourceHandlers } from './server/resourceHandler.js';
@@ -25,19 +27,26 @@ async function startServer() {
   try {
     console.log('Starting {{name}} MCP server...');
     
-    // Import the MCP server dynamically to avoid issues with ESM
-    const { MCPServer } = await import('@modelcontextprotocol/sdk');
-    
-    // Create the server instance
-    const server = new MCPServer(serverConfig);
+        // Create the server instance
+    const server = new Server(
+      {
+        name: '{{name}}',
+        version: '0.1.0',
+        description: '{{name}} MCP server',
+      },
+      serverConfig
+    );
     
     // Set up request handlers
     setupRequestHandlers(server);
     setupPromptHandlers(server);
     setupResourceHandlers(server);
     
-    // Start the server
-    await server.start();
+    // Create a transport
+    const transport = new StdioServerTransport();
+    
+    // Connect the server to the transport
+    await server.connect(transport);
     
     console.log('{{name}} MCP server started successfully');
   } catch (error) {

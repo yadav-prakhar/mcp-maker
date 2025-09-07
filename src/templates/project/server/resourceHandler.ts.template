@@ -1,7 +1,7 @@
 /**
  * MCP Server resource request handlers
  */
-import { ListResourcesRequestSchema, GetResourceRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { ListResourcesRequestSchema, ReadResourceRequestSchema } from '@modelcontextprotocol/sdk/types.js';
 import { serverResources } from '../resources/index.js';
 import { logger } from '../utils/logger.js';
 
@@ -21,7 +21,7 @@ export function setupResourceHandlers(server: any): void {
   });
 
   // Resource: Get a specific resource
-  server.setRequestHandler(GetResourceRequestSchema, async (request: any) => {
+  server.setRequestHandler(ReadResourceRequestSchema, async (request: any) => {
     const { uri } = request.params;
 
     // Find the requested resource
@@ -32,7 +32,13 @@ export function setupResourceHandlers(server: any): void {
     }
 
     return {
-      content: resource.content,
+      contents: [
+        {
+          uri,
+          mimeType: resource.mimeType || 'text/plain',
+          text: resource.content,
+        },
+      ],
     };
   });
 }

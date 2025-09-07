@@ -4,13 +4,13 @@
   "description": "CLI utility to create TypeScript MCP servers in modular structure.",
   "type": "module",
   "bin": {
-    "mcp": "./dist/index.js"
+    "mcp-maker": "./dist/index.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp -r src/templates dist/",
     "watch": "tsc --watch",
     "start": "node dist/index.js"
   },

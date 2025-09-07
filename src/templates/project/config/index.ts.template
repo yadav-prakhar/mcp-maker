@@ -1,0 +1,6 @@
+/**
+ * Server configuration
+ */
+
+// Set default log level from environment or use 'info' as default
+export const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
