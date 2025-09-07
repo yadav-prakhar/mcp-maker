@@ -68,17 +68,20 @@ export async function addService(name?: string): Promise<void> {
     const cwd = process.cwd();
     const servicesDir = path.join(cwd, 'src', 'services');
     const serviceDir = path.join(servicesDir, fileName);
-    
+
     // Create service directory if it doesn't exist
     await fs.mkdir(serviceDir, { recursive: true });
 
     // Get the template directory
     const templateDir = path.join(__dirname, '..', 'templates', 'service');
-    
+
     // Read and compile templates
-    const serviceTemplate = await fs.readFile(path.join(templateDir, 'service.ts.template'), 'utf-8');
+    const serviceTemplate = await fs.readFile(
+      path.join(templateDir, 'service.ts.template'),
+      'utf-8'
+    );
     const compiledServiceTemplate = Handlebars.compile(serviceTemplate);
-    
+
     const indexTemplate = await fs.readFile(path.join(templateDir, 'index.ts.template'), 'utf-8');
     const compiledIndexTemplate = Handlebars.compile(indexTemplate);
 
@@ -93,40 +96,37 @@ export async function addService(name?: string): Promise<void> {
 
     // Write service files
     console.log(chalk.blue(`Creating service ${serviceName}...`));
-    
+
     await fs.writeFile(
       path.join(serviceDir, `${fileName}.ts`),
       compiledServiceTemplate(templateData)
     );
-    
-    await fs.writeFile(
-      path.join(serviceDir, 'index.ts'),
-      compiledIndexTemplate(templateData)
-    );
+
+    await fs.writeFile(path.join(serviceDir, 'index.ts'), compiledIndexTemplate(templateData));
 
     // Update the main services/index.ts file to include the new service
     const mainServicesIndexPath = path.join(servicesDir, 'index.ts');
-    
+
     if (await fs.pathExists(mainServicesIndexPath)) {
       let mainServicesIndex = await fs.readFile(mainServicesIndexPath, 'utf-8');
-      
+
       // Add export statement if not already present
       const exportStatement = `export * from './${fileName}/index.js';`;
       if (!mainServicesIndex.includes(exportStatement)) {
         // Find the export section
         const exportRegex = /export \* from/;
         const exportMatch = mainServicesIndex.match(exportRegex);
-        
+
         if (exportMatch) {
           const exportLines = mainServicesIndex.split('\n');
           let lastExportLine = 0;
-          
+
           for (let i = 0; i < exportLines.length; i++) {
             if (exportLines[i].includes('export * from')) {
               lastExportLine = i;
             }
           }
-          
+
           // Insert the new export after the last export
           exportLines.splice(lastExportLine + 1, 0, exportStatement);
           mainServicesIndex = exportLines.join('\n');
@@ -135,7 +135,7 @@ export async function addService(name?: string): Promise<void> {
           mainServicesIndex += '\n' + exportStatement;
         }
       }
-      
+
       // Write the updated index file
       await fs.writeFile(mainServicesIndexPath, mainServicesIndex);
     } else {
@@ -147,7 +147,7 @@ export async function addService(name?: string): Promise<void> {
 
 // Re-export from modular structure
 export * from './${fileName}/index.js';`;
-      
+
       await fs.writeFile(mainServicesIndexPath, mainServicesIndex);
     }
 
@@ -156,7 +156,6 @@ export * from './${fileName}/index.js';`;
     console.log(chalk.blue(`- src/services/${fileName}/${fileName}.ts`));
     console.log(chalk.blue(`- src/services/${fileName}/index.ts`));
     console.log(chalk.blue(`Main services index updated to include the new service.`));
-    
   } catch (error) {
     console.error(chalk.red('Error adding service:'), error);
     process.exit(1);

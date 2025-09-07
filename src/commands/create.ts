@@ -61,7 +61,7 @@ export async function createServer(
 
   try {
     console.log(chalk.blue('Creating project structure...'));
-    
+
     // Create project directories
     await fs.mkdir(projectDir);
     await fs.mkdir(srcDir);
@@ -85,9 +85,9 @@ export async function createServer(
         start: 'node dist/index.js',
       },
       dependencies: {
-        "@modelcontextprotocol/sdk": "^1.17.5",
-        "pino": "^8.18.0",
-        "pino-pretty": "^10.3.1",
+        '@modelcontextprotocol/sdk': '^1.17.5',
+        pino: '^8.18.0',
+        'pino-pretty': '^10.3.1',
       },
       devDependencies: {
         '@types/node': '^20.11.24',
@@ -126,43 +126,81 @@ logs
 `;
 
     // Get the template directory
-    const templateDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'templates', 'project');
-    
+    const templateDir = path.join(
+      path.dirname(fileURLToPath(import.meta.url)),
+      '..',
+      'templates',
+      'project'
+    );
+
     // Read and compile templates
     const indexTemplate = await fs.readFile(path.join(templateDir, 'index.ts.template'), 'utf-8');
     const compiledIndexTemplate = Handlebars.compile(indexTemplate);
-    
-    const toolHandlerTemplate = await fs.readFile(path.join(templateDir, 'server', 'toolHandler.ts.template'), 'utf-8');
+
+    const toolHandlerTemplate = await fs.readFile(
+      path.join(templateDir, 'server', 'toolHandler.ts.template'),
+      'utf-8'
+    );
     const compiledToolHandlerTemplate = Handlebars.compile(toolHandlerTemplate);
-    
-    const promptHandlerTemplate = await fs.readFile(path.join(templateDir, 'server', 'promptHandler.ts.template'), 'utf-8');
+
+    const promptHandlerTemplate = await fs.readFile(
+      path.join(templateDir, 'server', 'promptHandler.ts.template'),
+      'utf-8'
+    );
     const compiledPromptHandlerTemplate = Handlebars.compile(promptHandlerTemplate);
-    
-    const resourceHandlerTemplate = await fs.readFile(path.join(templateDir, 'server', 'resourceHandler.ts.template'), 'utf-8');
+
+    const resourceHandlerTemplate = await fs.readFile(
+      path.join(templateDir, 'server', 'resourceHandler.ts.template'),
+      'utf-8'
+    );
     const compiledResourceHandlerTemplate = Handlebars.compile(resourceHandlerTemplate);
-    
-    const toolsIndexTemplate = await fs.readFile(path.join(templateDir, 'tools', 'index.ts.template'), 'utf-8');
+
+    const toolsIndexTemplate = await fs.readFile(
+      path.join(templateDir, 'tools', 'index.ts.template'),
+      'utf-8'
+    );
     const compiledToolsIndexTemplate = Handlebars.compile(toolsIndexTemplate);
-    
-    const toolsUtilsTemplate = await fs.readFile(path.join(templateDir, 'tools', 'utils.ts.template'), 'utf-8');
+
+    const toolsUtilsTemplate = await fs.readFile(
+      path.join(templateDir, 'tools', 'utils.ts.template'),
+      'utf-8'
+    );
     const compiledToolsUtilsTemplate = Handlebars.compile(toolsUtilsTemplate);
-    
-    const servicesIndexTemplate = await fs.readFile(path.join(templateDir, 'services', 'index.ts.template'), 'utf-8');
+
+    const servicesIndexTemplate = await fs.readFile(
+      path.join(templateDir, 'services', 'index.ts.template'),
+      'utf-8'
+    );
     const compiledServicesIndexTemplate = Handlebars.compile(servicesIndexTemplate);
-    
-    const promptsIndexTemplate = await fs.readFile(path.join(templateDir, 'prompts', 'index.ts.template'), 'utf-8');
+
+    const promptsIndexTemplate = await fs.readFile(
+      path.join(templateDir, 'prompts', 'index.ts.template'),
+      'utf-8'
+    );
     const compiledPromptsIndexTemplate = Handlebars.compile(promptsIndexTemplate);
-    
-    const resourcesIndexTemplate = await fs.readFile(path.join(templateDir, 'resources', 'index.ts.template'), 'utf-8');
+
+    const resourcesIndexTemplate = await fs.readFile(
+      path.join(templateDir, 'resources', 'index.ts.template'),
+      'utf-8'
+    );
     const compiledResourcesIndexTemplate = Handlebars.compile(resourcesIndexTemplate);
-    
-    const loggerTemplate = await fs.readFile(path.join(templateDir, 'utils', 'logger.ts.template'), 'utf-8');
+
+    const loggerTemplate = await fs.readFile(
+      path.join(templateDir, 'utils', 'logger.ts.template'),
+      'utf-8'
+    );
     const compiledLoggerTemplate = Handlebars.compile(loggerTemplate);
-    
-    const serverUtilsTemplate = await fs.readFile(path.join(templateDir, 'utils', 'serverUtils.ts.template'), 'utf-8');
+
+    const serverUtilsTemplate = await fs.readFile(
+      path.join(templateDir, 'utils', 'serverUtils.ts.template'),
+      'utf-8'
+    );
     const compiledServerUtilsTemplate = Handlebars.compile(serverUtilsTemplate);
-    
-    const configTemplate = await fs.readFile(path.join(templateDir, 'config', 'index.ts.template'), 'utf-8');
+
+    const configTemplate = await fs.readFile(
+      path.join(templateDir, 'config', 'index.ts.template'),
+      'utf-8'
+    );
     const compiledConfigTemplate = Handlebars.compile(configTemplate);
 
     // Prepare template data
@@ -180,22 +218,37 @@ logs
 
     // Write files
     console.log(chalk.blue('Creating project files...'));
-    
+
     const filesToWrite = [
       fs.writeFile(path.join(projectDir, 'package.json'), JSON.stringify(packageJson, null, 2)),
       fs.writeFile(path.join(projectDir, 'tsconfig.json'), JSON.stringify(tsconfig, null, 2)),
       fs.writeFile(path.join(projectDir, '.gitignore'), gitignore),
       fs.writeFile(path.join(srcDir, 'index.ts'), compiledIndexTemplate(templateData)),
-      fs.writeFile(path.join(serverDir, 'toolHandler.ts'), compiledToolHandlerTemplate(templateData)),
-      fs.writeFile(path.join(serverDir, 'promptHandler.ts'), compiledPromptHandlerTemplate(templateData)),
-      fs.writeFile(path.join(serverDir, 'resourceHandler.ts'), compiledResourceHandlerTemplate(templateData)),
+      fs.writeFile(
+        path.join(serverDir, 'toolHandler.ts'),
+        compiledToolHandlerTemplate(templateData)
+      ),
+      fs.writeFile(
+        path.join(serverDir, 'promptHandler.ts'),
+        compiledPromptHandlerTemplate(templateData)
+      ),
+      fs.writeFile(
+        path.join(serverDir, 'resourceHandler.ts'),
+        compiledResourceHandlerTemplate(templateData)
+      ),
       fs.writeFile(path.join(toolsDir, 'index.ts'), compiledToolsIndexTemplate(templateData)),
       fs.writeFile(path.join(toolsDir, 'utils.ts'), compiledToolsUtilsTemplate(templateData)),
       fs.writeFile(path.join(servicesDir, 'index.ts'), compiledServicesIndexTemplate(templateData)),
       fs.writeFile(path.join(promptsDir, 'index.ts'), compiledPromptsIndexTemplate(templateData)),
-      fs.writeFile(path.join(resourcesDir, 'index.ts'), compiledResourcesIndexTemplate(templateData)),
+      fs.writeFile(
+        path.join(resourcesDir, 'index.ts'),
+        compiledResourcesIndexTemplate(templateData)
+      ),
       fs.writeFile(path.join(utilsDir, 'logger.ts'), compiledLoggerTemplate(templateData)),
-      fs.writeFile(path.join(utilsDir, 'serverUtils.ts'), compiledServerUtilsTemplate(templateData)),
+      fs.writeFile(
+        path.join(utilsDir, 'serverUtils.ts'),
+        compiledServerUtilsTemplate(templateData)
+      ),
       fs.writeFile(path.join(configDir, 'index.ts'), compiledConfigTemplate(templateData)),
     ];
 
@@ -252,7 +305,9 @@ mcp add service <service-name>
     });
 
     if (gitInit.status !== 0) {
-      console.warn(chalk.yellow('Failed to initialize git repository. You may want to do this manually.'));
+      console.warn(
+        chalk.yellow('Failed to initialize git repository. You may want to do this manually.')
+      );
     }
 
     // Install dependencies if requested
@@ -265,7 +320,9 @@ mcp add service <service-name>
       });
 
       if (npmInstall.status !== 0) {
-        console.warn(chalk.yellow('Failed to install dependencies. You may want to run npm install manually.'));
+        console.warn(
+          chalk.yellow('Failed to install dependencies. You may want to run npm install manually.')
+        );
       } else {
         console.log(chalk.blue('Building project...'));
         const tscBuild = await execa('npx', ['tsc'], {
@@ -274,11 +331,14 @@ mcp add service <service-name>
         });
 
         if (tscBuild.exitCode !== 0) {
-          console.warn(chalk.yellow('Failed to build TypeScript. You may want to run npm run build manually.'));
+          console.warn(
+            chalk.yellow('Failed to build TypeScript. You may want to run npm run build manually.')
+          );
         }
       }
 
-      console.log(chalk.green(`
+      console.log(
+        chalk.green(`
 Project ${projectName} created and built successfully!
 
 You can now:
@@ -287,9 +347,11 @@ You can now:
    mcp add tool <tool-name>
 3. Add services using:
    mcp add service <service-name>
-      `));
+      `)
+      );
     } else {
-      console.log(chalk.green(`
+      console.log(
+        chalk.green(`
 Project ${projectName} created successfully (without dependencies)!
 
 You can now:
@@ -300,7 +362,8 @@ You can now:
    mcp add tool <tool-name>
 5. Add services using:
    mcp add service <service-name>
-      `));
+      `)
+      );
     }
   } catch (error) {
     console.error(chalk.red('Error creating project:'), error);
