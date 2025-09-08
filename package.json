@@ -1,6 +1,6 @@
 {
   "name": "mcp-maker",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "CLI utility to create TypeScript MCP servers in modular structure.",
   "keywords": [
     "mcp",
@@ -29,9 +29,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && cp -r src/templates dist/",
+    "build": "tsc && cp -r src/templates dist/ && chmod +x dist/index.js",
     "watch": "tsc --watch",
     "start": "node dist/index.js",
+    "prepublishOnly": "npm run build",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\""

@@ -1,10 +1,28 @@
-# mcp-maker
+<div align="center">
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/node-%3E%3D18.19.0-brightgreen.svg)](https://nodejs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-%5E5.3.3-blue.svg)](https://www.typescriptlang.org/)
+# MCP Maker
+
+<strong>Supercharge your MCP server development with MCP Maker</strong>
+
+<!-- Project Status Badges -->
+[![npm version](https://img.shields.io/npm/v/mcp-maker?label=Version&color=3674B5
+)](https://www.npmjs.com/package/mcp-maker)
+[![Downloads](https://img.shields.io/npm/d18m/mcp-maker?logo=npm&label=Downloads&color=FFDE63
+)](https://www.npmjs.com/package/mcp-maker)
+[![License](https://img.shields.io/badge/License-Apache%202.0-F38181.svg?logo=apache)](LICENSE)
+[![NodeJS](https://img.shields.io/badge/NodeJS-%3E%3D18.19.0-5dae47.svg?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+
+[Introduction](#introduction) • [Features](#features) • [Installation](#installation) • [Usage](#usage) • [MCP Structure](#project-structure)
+
+
+<img src="https://repository-images.githubusercontent.com/1051822089/b0a82bcf-1cbc-4709-bb15-20648765b7cc" alt="MCP Maker" width="700">
+
+<br>
 
 A CLI utility to quickly create and manage TypeScript MCP (Model Context Protocol) servers following a modular structure.
+
+</div>
+
 
 ## 📋 Table of Contents
 
@@ -21,9 +39,9 @@ A CLI utility to quickly create and manage TypeScript MCP (Model Context Protoco
 
 ## 🚀 Introduction
 
-`mcp-maker` is a command-line utility designed to streamline the process of creating and managing TypeScript MCP servers. It follows the structure and patterns used in the ServiceNow MCP server, providing a consistent and efficient way to scaffold new projects and add components.
+`mcp-maker` is a command-line utility designed to streamline the process of creating and managing TypeScript MCP servers. It follows the structure and patterns used for making modular MCP servers, providing a consistent and efficient way to scaffold new projects and add components.
 
-Whether you're creating a new MCP server from scratch or adding tools and services to an existing one, `mcp` simplifies the process and ensures adherence to best practices.
+Whether you're creating a new MCP server from scratch or adding tools and services to an existing one, `mcp-maker` simplifies the process and ensures adherence to best practices.
 
 ## ✨ Features
 
@@ -60,7 +78,7 @@ npm install --save-dev mcp-maker
 ### Create a New MCP Server
 
 ```bash
-mcp create server <name> [options]
+mcp-maker create server <name> [options]
 ```
 
 #### Options
@@ -74,7 +92,7 @@ mcp create server <name> [options]
 #### Example
 
 ```bash
-mcp create server my-mcp-server --http --port 3000 --cors
+mcp-maker create server my-mcp-server --http --port 3000 --cors
 ```
 
 This will create a new MCP server project named `my-mcp-server` with HTTP transport on port 3000 and CORS enabled.
@@ -82,7 +100,7 @@ This will create a new MCP server project named `my-mcp-server` with HTTP transp
 ### Add a Tool
 
 ```bash
-mcp add tool <name> [options]
+mcp-maker add tool <name> [options]
 ```
 
 #### Options
@@ -92,7 +110,7 @@ mcp add tool <name> [options]
 
 ```bash
 cd my-mcp-server
-mcp add tool get-user-data
+mcp-maker add tool get-user-data
 ```
 
 This will:
@@ -104,7 +122,7 @@ This will:
 ### Add a Service
 
 ```bash
-mcp add service <name> [options]
+mcp-maker add service <name> [options]
 ```
 
 #### Options
@@ -114,7 +132,7 @@ mcp add service <name> [options]
 
 ```bash
 cd my-mcp-server
-mcp add service user-service
+mcp-maker add service user-service
 ```
 
 This will:
@@ -173,4 +191,4 @@ We welcome contributions! Please see our [CONTRIBUTING.md](CONTRIBUTING.md) for 
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
-Copyright 2025 Prakhar Yadav
+Copyright © 2025 Prakhar Yadav
