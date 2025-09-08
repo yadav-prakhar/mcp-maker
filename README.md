@@ -12,30 +12,31 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-F38181.svg?logo=apache)](LICENSE)
 [![NodeJS](https://img.shields.io/badge/NodeJS-%3E%3D18.19.0-5dae47.svg?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
-[🚀 Introduction](#🚀-introduction) • [✨ Features](#✨-features) • [📥 Installation](#📥-installation) • [🔧 Usage](#🔧-usage) • [🏗️ Generated MCP Structure](#🏗️-generated-mcp-server-project-structure)
+[🚀 Introduction](#-introduction) • [✨ Features](#-features) • [📥 Installation](#-installation) • [🔧 Usage](#-usage) • [🏗️ Generated MCP Structure](#-generated-mcp-server-project-structure)
 
 
 <img src="https://repository-images.githubusercontent.com/1051822089/b0a82bcf-1cbc-4709-bb15-20648765b7cc" alt="MCP Maker" width="700">
+
+
+</div>
 
 <br>
 
 A CLI utility to quickly create and manage TypeScript MCP (Model Context Protocol) servers following a modular structure.
 
-</div>
-
 
 ## 📋 Table of Contents
 
-- [Introduction](#🚀-introduction)
-- [Features](#✨-features)
-- [Installation](#📥-installation)
-- [Usage](#🔧-usage)
+- [Introduction](#-introduction)
+- [Features](#-features)
+- [Installation](#-installation)
+- [Usage](#-usage)
   - [Create a New MCP Server](#create-a-new-mcp-server)
   - [Add a Tool](#add-a-tool)
   - [Add a Service](#add-a-service)
-- [Generated MCP Server Project Structure](#🏗️-generated-mcp-server-project-structure)
-- [Contributing](#🤝-contributing)
-- [License](#📄-license)
+- [Generated MCP Server Project Structure](#-generated-mcp-server-project-structure)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ## 🚀 Introduction
 
