@@ -12,7 +12,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-F38181.svg?logo=apache)](LICENSE)
 [![NodeJS](https://img.shields.io/badge/NodeJS-%3E%3D18.19.0-5dae47.svg?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
-[🚀 Introduction](#-introduction) • [✨ Features](#-features) • [📥 Installation](#-installation) • [🔧 Usage](#-usage) • [🏗️ Generated MCP Structure](#-generated-mcp-server-project-structure)
+[🚀 Introduction](#-introduction) • [✨ Features](#-features) • [📥 Installation](#-installation) • [🔧 Usage](#-usage) • [🏗️ Generated MCP Structure](#%EF%B8%8F-generated-mcp-server-project-structure)
 
 
 <img src="https://repository-images.githubusercontent.com/1051822089/b0a82bcf-1cbc-4709-bb15-20648765b7cc" alt="MCP Maker" width="700">
