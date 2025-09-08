@@ -34,7 +34,7 @@ A CLI utility to quickly create and manage TypeScript MCP (Model Context Protoco
   - [Create a New MCP Server](#create-a-new-mcp-server)
   - [Add a Tool](#add-a-tool)
   - [Add a Service](#add-a-service)
-- [Generated MCP Server Project Structure](#-generated-mcp-server-project-structure)
+- [Generated MCP Server Project Structure](#%EF%B8%8F-generated-mcp-server-project-structure)
 - [Contributing](#-contributing)
 - [License](#-license)
 
