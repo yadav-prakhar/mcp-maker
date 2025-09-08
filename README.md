@@ -4,7 +4,7 @@
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18.19.0-brightgreen.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-%5E5.3.3-blue.svg)](https://www.typescriptlang.org/)
 
-A CLI utility to quickly create and manage TypeScript MCP (Model Context Protocol) servers following the ServiceNow MCP structure.
+A CLI utility to quickly create and manage TypeScript MCP (Model Context Protocol) servers following a modular structure.
 
 ## 📋 Table of Contents
 
