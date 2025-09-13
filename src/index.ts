@@ -56,11 +56,7 @@ addCommand.description("Add new components to an existing MCP server");
 addCommand.command("tool").description("Add a new tool to an existing MCP server").argument("[name]", "tool name").action(addTool);
 
 // Add service command
-addCommand
-	.command("service")
-	.description("Add a new service to an existing MCP server")
-	.argument("[name]", "service name")
-	.action(addService);
+addCommand.command("service").description("Add a new service to an existing MCP server").argument("[name]", "service name").action(addService);
 
 // Add auth command
 addCommand
