@@ -1,6 +1,6 @@
 {
   "name": "mcp-maker",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "CLI utility to create TypeScript MCP servers in modular structure.",
   "keywords": [
     "mcp",
