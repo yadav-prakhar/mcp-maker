@@ -16,7 +16,7 @@ const program = new Command();
 program
 	.name("mcp-maker")
 	.description("CLI utility to create and manage TypeScript MCP servers following the ServiceNow MCP structure")
-	.version("0.1.0")
+	.version("0.1.4")
 	.helpOption("-h, --help", "display help information");
 
 // Override the default help command to use GNU-style formatting
