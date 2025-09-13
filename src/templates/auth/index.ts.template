@@ -1,0 +1,17 @@
+export * from "./interfaces/index.js";
+export * from "./methods/index.js";
+export * from "./AuthFactory.js";
+export * from "./AuthService.js";
+
+// Re-export commonly used types and classes for convenience
+import { IAuthProvider } from "./interfaces/IAuthProvider.js";
+import { AuthFactory, AuthType, AuthConfig } from "./AuthFactory.js";
+
+/**
+ * Get an authentication provider instance based on the configuration
+ * @param config - The authentication configuration
+ * @returns An instance of the appropriate authentication provider
+ */
+export function getAuthProvider(config: AuthConfig): IAuthProvider {
+	return AuthFactory.createAuthProvider(config);
+}

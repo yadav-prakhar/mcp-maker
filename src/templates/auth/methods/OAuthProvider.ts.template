@@ -1,0 +1,208 @@
+import { IOAuthProvider } from "../interfaces/IOAuthProvider.js";
+import { logger } from "../../../utils/logger.js";
+
+/**
+ * OAuth Authentication Provider implementation
+ * Uses OAuth 2.0 for authentication with API services
+ */
+export class OAuthProvider implements IOAuthProvider {
+	private baseUrl: string;
+	private clientId: string;
+	private clientSecret: string;
+	private accessToken: string;
+	private refreshToken: string;
+	private username: string;
+	private password: string;
+	private tokenExpiry: Date | null = null;
+
+	/**
+	 * Create a new OAuthProvider
+	 * @param baseUrl - The base URL of the API service
+	 * @param clientId - The OAuth client ID
+	 * @param clientSecret - The OAuth client secret
+	 * @param accessToken - Optional initial access token
+	 * @param refreshToken - Optional initial refresh token
+	 * @param username - Optional username for password grant
+	 * @param password - Optional password for password grant
+	 */
+	constructor(
+		baseUrl: string,
+		clientId: string,
+		clientSecret: string,
+		accessToken?: string,
+		refreshToken?: string,
+		username?: string,
+		password?: string
+	) {
+		this.baseUrl = baseUrl;
+		this.clientId = clientId;
+		this.clientSecret = clientSecret;
+		this.accessToken = accessToken || "";
+		this.refreshToken = refreshToken || "";
+		this.username = username || "";
+		this.password = password || "";
+	}
+
+	/**
+	 * Get authentication headers for API requests
+	 * @returns Authorization header with OAuth access token
+	 */
+	async getAuthHeaders(): Promise<Record<string, string>> {
+		// If access token is expired or not set, refresh it
+		if (!this.accessToken || this.isAccessTokenExpired()) {
+			await this.refreshAccessToken();
+		}
+
+		return {
+			Authorization: `Bearer ${this.accessToken}`,
+		};
+	}
+
+	/**
+	 * Check if the current authentication is valid
+	 * @returns True if access token exists and is not expired
+	 */
+	async isValid(): Promise<boolean> {
+		return Boolean(this.accessToken) && !this.isAccessTokenExpired();
+	}
+
+	/**
+	 * Get the type of authentication provider
+	 * @returns 'oauth'
+	 */
+	getType(): string {
+		return "oauth";
+	}
+
+	/**
+	 * Get the current access token
+	 * @returns The access token
+	 */
+	getAccessToken(): string {
+		return this.accessToken;
+	}
+
+	/**
+	 * Get the refresh token
+	 * @returns The refresh token
+	 */
+	getRefreshToken(): string {
+		return this.refreshToken;
+	}
+
+	/**
+	 * Check if the access token is expired
+	 * @returns True if the token is expired, false otherwise
+	 */
+	isAccessTokenExpired(): boolean {
+		if (!this.tokenExpiry) {
+			return true;
+		}
+
+		// Consider token expired 5 minutes before actual expiry
+		const now = new Date();
+		const expiryWithBuffer = new Date(this.tokenExpiry.getTime() - 5 * 60 * 1000);
+		return now >= expiryWithBuffer;
+	}
+
+	/**
+	 * Get the client ID used for OAuth
+	 * @returns The client ID
+	 */
+	getClientId(): string {
+		return this.clientId;
+	}
+
+	/**
+	 * Get the client secret used for OAuth
+	 * @returns The client secret
+	 */
+	getClientSecret(): string {
+		return this.clientSecret;
+	}
+
+	/**
+	 * Obtain access and refresh tokens using password grant
+	 * @param username - The username for authentication
+	 * @param password - The password for authentication
+	 * @returns A new valid access token
+	 */
+	async obtainTokensWithPasswordGrant(username: string, password: string): Promise<string> {
+		try {
+			// Implement password grant logic for your specific OAuth provider
+			// This is a placeholder implementation
+			logger.info("Obtaining tokens with password grant");
+			
+			// Example implementation:
+			// const formData = new URLSearchParams();
+			// formData.append("grant_type", "password");
+			// formData.append("username", username);
+			// formData.append("password", password);
+			// formData.append("client_id", this.clientId);
+			// formData.append("client_secret", this.clientSecret);
+			//
+			// const response = await fetch(`${this.baseUrl}/oauth/token`, {
+			//   method: 'POST',
+			//   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			//   body: formData.toString()
+			// });
+			// const data = await response.json();
+			
+			// For demonstration purposes:
+			this.accessToken = "example-access-token-" + Date.now();
+			this.refreshToken = "example-refresh-token-" + Date.now();
+			this.tokenExpiry = new Date(Date.now() + 3600 * 1000); // 1 hour expiry
+			
+			return this.accessToken;
+		} catch (error) {
+			logger.error("OAuth token acquisition failed", { error });
+			throw error;
+		}
+	}
+
+	/**
+	 * Refresh the access token using the refresh token
+	 * @returns A new valid access token
+	 */
+	async refreshAccessToken(): Promise<string> {
+		try {
+			// If no refresh token is available, try to get initial tokens with username/password
+			if (!this.refreshToken) {
+				if (this.username && this.password) {
+					logger.info("No refresh token available, attempting to obtain tokens");
+					return this.obtainTokensWithPasswordGrant(this.username, this.password);
+				} else {
+					throw new Error("No refresh token or credentials available");
+				}
+			}
+
+			// Implement token refresh logic for your specific OAuth provider
+			// This is a placeholder implementation
+			logger.info("Refreshing access token");
+			
+			// Example implementation:
+			// const formData = new URLSearchParams();
+			// formData.append("grant_type", "refresh_token");
+			// formData.append("refresh_token", this.refreshToken);
+			// formData.append("client_id", this.clientId);
+			// formData.append("client_secret", this.clientSecret);
+			//
+			// const response = await fetch(`${this.baseUrl}/oauth/token`, {
+			//   method: 'POST',
+			//   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+			//   body: formData.toString()
+			// });
+			// const data = await response.json();
+			
+			// For demonstration purposes:
+			this.accessToken = "refreshed-access-token-" + Date.now();
+			this.refreshToken = "refreshed-refresh-token-" + Date.now();
+			this.tokenExpiry = new Date(Date.now() + 3600 * 1000); // 1 hour expiry
+			
+			return this.accessToken;
+		} catch (error) {
+			logger.error("OAuth token refresh failed", { error });
+			throw error;
+		}
+	}
+}

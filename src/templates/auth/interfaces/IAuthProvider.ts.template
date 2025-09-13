@@ -1,0 +1,23 @@
+/**
+ * Base interface for all authentication providers
+ * Defines the common methods and properties for authentication
+ */
+export interface IAuthProvider {
+	/**
+	 * Get authentication headers for API requests
+	 * @returns Record of header name to header value
+	 */
+	getAuthHeaders(): Promise<Record<string, string>>;
+
+	/**
+	 * Check if the current authentication is valid
+	 * @returns True if authentication is valid, false otherwise
+	 */
+	isValid(): Promise<boolean>;
+
+	/**
+	 * Get the type of authentication provider
+	 * @returns The authentication type as a string
+	 */
+	getType(): string;
+}

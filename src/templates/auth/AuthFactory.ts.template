@@ -1,0 +1,77 @@
+import { IAuthProvider } from "./interfaces/IAuthProvider.js";
+import { BasicAuthProvider, TokenAuthProvider, OAuthProvider } from "./methods/index.js";
+
+/**
+ * Authentication type enum
+ */
+export enum AuthType {
+	BASIC = "basic",
+	TOKEN = "token",
+	OAUTH = "oauth",
+}
+
+/**
+ * Authentication configuration interface
+ */
+export interface AuthConfig {
+	type: AuthType;
+	baseUrl: string;
+	username?: string;
+	password?: string;
+	clientId?: string;
+	clientSecret?: string;
+	accessToken?: string;
+	refreshToken?: string;
+}
+
+/**
+ * Factory class for creating authentication providers
+ */
+export class AuthFactory {
+	/**
+	 * Create an authentication provider based on the configuration
+	 * @param config - The authentication configuration
+	 * @returns An instance of the appropriate authentication provider
+	 */
+	static createAuthProvider(config: AuthConfig): IAuthProvider {
+		switch (config.type) {
+			case AuthType.BASIC:
+				if (!config.username || !config.password) {
+					throw new Error("Username and password are required for basic authentication");
+				}
+				return new BasicAuthProvider(config.username, config.password);
+
+			case AuthType.TOKEN:
+				if (!config.baseUrl || !config.username || !config.password) {
+					throw new Error(
+						"Base URL, username, and password are required for token authentication"
+					);
+				}
+				return new TokenAuthProvider(
+					config.baseUrl,
+					config.username,
+					config.password,
+					config.accessToken
+				);
+
+			case AuthType.OAUTH:
+				if (!config.baseUrl || !config.clientId || !config.clientSecret) {
+					throw new Error(
+						"Base URL, client ID, and client secret are required for OAuth authentication"
+					);
+				}
+				return new OAuthProvider(
+					config.baseUrl,
+					config.clientId,
+					config.clientSecret,
+					config.accessToken,
+					config.refreshToken,
+					config.username,
+					config.password
+				);
+
+			default:
+				throw new Error(`Unsupported authentication type: ${config.type}`);
+		}
+	}
+}
