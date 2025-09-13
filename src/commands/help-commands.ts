@@ -29,6 +29,8 @@ export function displayMainHelp(): void {
 	console.log('    Add a new tool named "my-tool" to an existing MCP server');
 	console.log(`  ${chalk.cyan("mcp-maker add service my-service")}`);
 	console.log('    Add a new service named "my-service" to an existing MCP server');
+	console.log(`  ${chalk.cyan("mcp-maker add auth basic")}`);
+	console.log("    Add basic authentication to an existing MCP server");
 
 	console.log(chalk.bold("\nREPORTING BUGS"));
 	console.log("  Report bugs to: <your-email@example.com>");
@@ -119,12 +121,15 @@ export function displayAddHelp(): void {
 	console.log(chalk.bold("\nCOMMANDS"));
 	console.log(`  ${chalk.green("tool")}                Add a new tool to an existing MCP server`);
 	console.log(`  ${chalk.green("service")}             Add a new service to an existing MCP server`);
+	console.log(`  ${chalk.green("auth")}                Add authentication to an existing MCP server`);
 
 	console.log(chalk.bold("\nEXAMPLES"));
 	console.log(`  ${chalk.cyan("mcp-maker add tool my-tool")}`);
 	console.log('    Add a new tool named "my-tool" to an existing MCP server');
 	console.log(`  ${chalk.cyan("mcp-maker add service my-service")}`);
-	console.log('    Add a new service named "my-service" to an existing MCP server\n');
+	console.log('    Add a new service named "my-service" to an existing MCP server');
+	console.log(`  ${chalk.cyan("mcp-maker add auth --all")}`);
+	console.log("    Add all authentication types to an existing MCP server\n");
 }
 
 /**
@@ -176,6 +181,38 @@ export function displayAddServiceHelp(): void {
 }
 
 /**
+ * Display help for the add auth command in GNU style
+ */
+export function displayAddAuthHelp(): void {
+	console.log(chalk.bold("\nNAME"));
+	console.log("  mcp-maker add auth - Add authentication to an existing MCP server");
+
+	console.log(chalk.bold("\nSYNOPSIS"));
+	console.log("  mcp-maker add auth [OPTION]... [TYPE]");
+
+	console.log(chalk.bold("\nDESCRIPTION"));
+	console.log("  Add authentication support to an existing MCP server");
+	console.log("  Supports three types of authentication: basic, token, and oauth");
+
+	console.log(chalk.bold("\nARGUMENTS"));
+	console.log(`  ${chalk.green("TYPE")}                 Type of authentication to add (basic, token, oauth, or --all)`);
+	console.log("                       If not provided, will prompt for selection");
+
+	console.log(chalk.bold("\nOPTIONS"));
+	console.log(`  ${chalk.green("-h, --help")}             display help information`);
+
+	console.log(chalk.bold("\nEXAMPLES"));
+	console.log(`  ${chalk.cyan("mcp-maker add auth basic")}`);
+	console.log("    Add basic authentication to an existing MCP server");
+	console.log(`  ${chalk.cyan("mcp-maker add auth token")}`);
+	console.log("    Add token-based authentication to an existing MCP server");
+	console.log(`  ${chalk.cyan("mcp-maker add auth oauth")}`);
+	console.log("    Add OAuth 2.0 authentication to an existing MCP server");
+	console.log(`  ${chalk.cyan("mcp-maker add auth --all")}`);
+	console.log("    Add all authentication types to an existing MCP server\n");
+}
+
+/**
  * Display help for a specific command
  * @param command - The command to display help for
  * @param subcommand - The subcommand to display help for
@@ -199,6 +236,8 @@ export function displayHelp(command?: string, subcommand?: string): void {
 				displayAddToolHelp();
 			} else if (subcommand === "service") {
 				displayAddServiceHelp();
+			} else if (subcommand === "auth") {
+				displayAddAuthHelp();
 			} else {
 				displayAddHelp();
 			}
