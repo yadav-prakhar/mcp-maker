@@ -80,7 +80,7 @@ npm install --save-dev mcp-maker
 ### Create a New MCP Server
 
 ```bash
-mcp-maker create server <n> [options]
+mcp-maker create server <name> [options]
 ```
 
 #### Options
@@ -102,7 +102,7 @@ This will create a new MCP server project named `my-mcp-server` with HTTP transp
 ### Add a Tool
 
 ```bash
-mcp-maker add tool <n> [options]
+mcp-maker add tool <name> [options]
 ```
 
 #### Options
@@ -124,7 +124,7 @@ This will:
 ### Add a Service
 
 ```bash
-mcp-maker add service <n> [options]
+mcp-maker add service <name> [options]
 ```
 
 #### Options
