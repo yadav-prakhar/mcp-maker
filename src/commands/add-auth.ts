@@ -1,15 +1,14 @@
 import fs from "fs-extra";
 import path from "path";
-import prompts from "prompts";
 import chalk from "chalk";
-import Handlebars from "handlebars";
 import { validateMCPProject } from "../utils/validate-project.js";
+import { fileURLToPath } from "url";
 
 /**
  * Add authentication support to an existing MCP server
- * @param type - The type of authentication to add (basic, token, oauth, or --all for all types)
+ * Adds all authentication types (basic, token, oauth)
  */
-export async function addAuth(type?: string): Promise<void> {
+export async function addAuth(): Promise<void> {
 	try {
 		// Validate that we're in an MCP server project
 		await validateMCPProject();
@@ -17,48 +16,9 @@ export async function addAuth(type?: string): Promise<void> {
 		// Define auth types
 		const authTypes = ["basic", "token", "oauth"];
 
-		// Determine which auth types to add
-		let authTypesToAdd: string[] = [];
-
-		if (type === "--all") {
-			// Add all auth types
-			authTypesToAdd = [...authTypes];
-			console.log(chalk.blue("Adding all authentication types..."));
-		} else if (type) {
-			// Validate provided type
-			if (!authTypes.includes(type)) {
-				console.log(chalk.red(`Invalid auth type: ${type}`));
-				console.log(chalk.yellow(`Valid types are: ${authTypes.join(", ")} or --all for all types`));
-				process.exit(1);
-			}
-			authTypesToAdd = [type];
-		} else {
-			// Prompt for auth type if not provided
-			const response = await prompts([
-				{
-					type: "select",
-					name: "authType",
-					message: "Select the type of authentication to add:",
-					choices: [
-						{ title: "Basic Auth", value: "basic" },
-						{ title: "Token Auth", value: "token" },
-						{ title: "OAuth 2.0", value: "oauth" },
-						{ title: "All Types", value: "all" },
-					],
-				},
-			]);
-
-			if (!response.authType) {
-				console.log(chalk.yellow("Auth creation cancelled"));
-				process.exit(1);
-			}
-
-			if (response.authType === "all") {
-				authTypesToAdd = [...authTypes];
-			} else {
-				authTypesToAdd = [response.authType];
-			}
-		}
+		// Add all auth types
+		const authTypesToAdd = [...authTypes];
+		console.log(chalk.blue("Adding all authentication types..."));
 
 		// Set up paths
 		const cwd = process.cwd();
@@ -72,7 +32,7 @@ export async function addAuth(type?: string): Promise<void> {
 		await fs.mkdir(methodsDir, { recursive: true });
 
 		// Get the template directory
-		const templateDir = path.join(__dirname, "..", "templates", "auth");
+		const templateDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "templates", "auth");
 		const interfacesTemplateDir = path.join(templateDir, "interfaces");
 		const methodsTemplateDir = path.join(templateDir, "methods");
 
@@ -90,14 +50,24 @@ export async function addAuth(type?: string): Promise<void> {
 			console.log(chalk.blue(`Setting up ${authType} authentication...`));
 
 			// Copy interface file
-			const interfaceFileName = `I${authType.charAt(0).toUpperCase() + authType.slice(1)}AuthProvider.ts`;
+			let interfaceFileName;
+			if (authType === "oauth") {
+				interfaceFileName = "IOAuthProvider.ts";
+			} else {
+				interfaceFileName = `I${authType.charAt(0).toUpperCase() + authType.slice(1)}AuthProvider.ts`;
+			}
 			await fs.copyFile(path.join(interfacesTemplateDir, interfaceFileName + ".template"), path.join(interfacesDir, interfaceFileName));
 
 			// Add to interfaces index
 			interfacesIndexContent += `export * from "./${interfaceFileName.replace(".ts", ".js")}";\n`;
 
 			// Copy provider implementation
-			const providerFileName = `${authType.charAt(0).toUpperCase() + authType.slice(1)}AuthProvider.ts`;
+			let providerFileName;
+			if (authType === "oauth") {
+				providerFileName = "OAuthProvider.ts";
+			} else {
+				providerFileName = `${authType.charAt(0).toUpperCase() + authType.slice(1)}AuthProvider.ts`;
+			}
 			await fs.copyFile(path.join(methodsTemplateDir, providerFileName + ".template"), path.join(methodsDir, providerFileName));
 		}
 
@@ -107,27 +77,21 @@ export async function addAuth(type?: string): Promise<void> {
 		// Create methods index.ts
 		let methodsIndexContent = "";
 		for (const authType of authTypesToAdd) {
-			const providerFileName = `${authType.charAt(0).toUpperCase() + authType.slice(1)}AuthProvider.js`;
-			methodsIndexContent += `export * from "./${providerFileName}";\n`;
+			let providerFileName;
+			if (authType === "oauth") {
+				providerFileName = "OAuthProvider";
+			} else {
+				providerFileName = `${authType.charAt(0).toUpperCase() + authType.slice(1)}AuthProvider`;
+			}
+			methodsIndexContent += `export * from "./${providerFileName}.js";\n`;
 		}
 		await fs.writeFile(path.join(methodsDir, "index.ts"), methodsIndexContent);
 
 		// Copy AuthFactory and AuthService
 		console.log(chalk.blue("Setting up AuthFactory and AuthService..."));
 
-		// Read and compile AuthFactory template to include only selected auth types
-		const authFactoryTemplate = await fs.readFile(path.join(templateDir, "AuthFactory.ts.template"), "utf-8");
-		const compiledAuthFactoryTemplate = Handlebars.compile(authFactoryTemplate);
-
-		// Prepare data for AuthFactory template
-		const authFactoryData = {
-			includeBasic: authTypesToAdd.includes("basic"),
-			includeToken: authTypesToAdd.includes("token"),
-			includeOAuth: authTypesToAdd.includes("oauth"),
-		};
-
-		// Write modified AuthFactory.ts
-		await fs.writeFile(path.join(authDir, "AuthFactory.ts"), compiledAuthFactoryTemplate(authFactoryData));
+		// Copy AuthFactory.ts
+		await fs.copyFile(path.join(templateDir, "AuthFactory.ts.template"), path.join(authDir, "AuthFactory.ts"));
 
 		// Copy AuthService.ts
 		await fs.copyFile(path.join(templateDir, "AuthService.ts.template"), path.join(authDir, "AuthService.ts"));

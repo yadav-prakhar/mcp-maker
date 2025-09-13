@@ -1,5 +1,7 @@
 import { IAuthProvider } from "./interfaces/IAuthProvider.js";
-import { BasicAuthProvider, TokenAuthProvider, OAuthProvider } from "./methods/index.js";
+import { BasicAuthProvider } from "./methods/BasicAuthProvider.js";
+import { TokenAuthProvider } from "./methods/TokenAuthProvider.js";
+import { OAuthProvider } from "./methods/OAuthProvider.js";
 
 /**
  * Authentication type enum
@@ -7,7 +9,7 @@ import { BasicAuthProvider, TokenAuthProvider, OAuthProvider } from "./methods/i
 export enum AuthType {
 	BASIC = "basic",
 	TOKEN = "token",
-	OAUTH = "oauth",
+	OAUTH = "oauth"
 }
 
 /**

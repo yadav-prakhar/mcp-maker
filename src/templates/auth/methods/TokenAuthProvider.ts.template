@@ -1,5 +1,5 @@
 import { ITokenAuthProvider } from "../interfaces/ITokenAuthProvider.js";
-import { logger } from "../../../utils/logger.js";
+import { logger } from "../../utils/logger.js";
 
 /**
  * Token Authentication Provider implementation

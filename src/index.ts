@@ -59,11 +59,7 @@ addCommand.command("tool").description("Add a new tool to an existing MCP server
 addCommand.command("service").description("Add a new service to an existing MCP server").argument("[name]", "service name").action(addService);
 
 // Add auth command
-addCommand
-	.command("auth")
-	.description("Add authentication to an existing MCP server")
-	.argument("[type]", "auth type (basic, token, oauth, or --all)")
-	.action(addAuth);
+addCommand.command("auth").description("Add authentication to an existing MCP server").action(addAuth);
 
 // Add help command
 const helpCommand = program.command("help");
