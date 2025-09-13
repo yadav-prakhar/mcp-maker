@@ -49,6 +49,7 @@ Whether you're creating a new MCP server from scratch or adding tools and servic
 - **Quick Project Scaffolding**: Create a fully structured MCP server project with a single command
 - **Automated Tool Creation**: Add new tools with proper structure and automatic registration in the toolHandler
 - **Service Management**: Add new services with proper structure and automatic registration
+- **Authentication Support**: Add multiple authentication types (Basic, Token, OAuth) to your MCP server
 - **Consistent Structure**: Ensures all projects follow the same structure and patterns
 - **TypeScript Support**: Full TypeScript support with proper type definitions
 - **Interactive CLI**: User-friendly command-line interface with helpful prompts
@@ -79,7 +80,7 @@ npm install --save-dev mcp-maker
 ### Create a New MCP Server
 
 ```bash
-mcp-maker create server <name> [options]
+mcp-maker create server <n> [options]
 ```
 
 #### Options
@@ -101,7 +102,7 @@ This will create a new MCP server project named `my-mcp-server` with HTTP transp
 ### Add a Tool
 
 ```bash
-mcp-maker add tool <name> [options]
+mcp-maker add tool <n> [options]
 ```
 
 #### Options
@@ -123,7 +124,7 @@ This will:
 ### Add a Service
 
 ```bash
-mcp-maker add service <name> [options]
+mcp-maker add service <n> [options]
 ```
 
 #### Options
@@ -142,6 +143,31 @@ This will:
 3. Update the main services index to include the new service
 4. Set up proper TypeScript types and interfaces
 
+### Add Authentication
+
+```bash
+mcp-maker add auth
+```
+
+#### Options
+- `-h, --help`: Display help for the command
+
+#### Example
+
+```bash
+cd my-mcp-server
+mcp-maker add auth
+```
+
+This will:
+1. Create a new auth directory in `src/auth` with all necessary structure
+2. Set up three authentication types:
+   - Basic Authentication (username/password)
+   - Token Authentication (API keys, JWT, etc.)
+   - OAuth 2.0 Authentication (for integrating with OAuth providers)
+3. Create authentication factory, service, and interfaces
+4. Set up proper TypeScript types and interfaces
+
 ## 🏗️ Generated MCP Server Project Structure
 
 The `mcp-maker` CLI scaffolds a new MCP server project with the following structure:
@@ -158,6 +184,13 @@ my-mcp-server/
 │   │   └── <service-name>/ # Each service in its own directory
 │   │       ├── index.ts   # Service implementation
 │   │       └── types.ts   # Type definitions for the service
+│   │
+│   ├── auth/              # Authentication (when added)
+│   │   ├── interfaces/    # Authentication interfaces
+│   │   ├── methods/       # Authentication method implementations
+│   │   ├── AuthFactory.ts # Factory for creating auth providers
+│   │   ├── AuthService.ts # Service for authentication
+│   │   └── index.ts       # Main entry point for auth
 │   │
 │   ├── types/             # Global TypeScript type definitions
 │   ├── utils/             # Utility functions
