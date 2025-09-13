@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yadav-prakhar/mcp-maker.git"
+    "url": "git+https://github.com/yadav-prakhar/mcp-maker.git"
   },
   "license": "Apache-2.0",
   "author": "Prakhar Yadav <codewithp.dev@gmail.com>",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "mcp-maker": "./dist/index.js"
+    "mcp-maker": "dist/index.js"
   },
   "files": [
     "dist"
