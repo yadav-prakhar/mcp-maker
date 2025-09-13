@@ -1,0 +1,17 @@
+import { IAuthProvider } from "./IAuthProvider.js";
+
+/**
+ * Basic Authentication Provider interface
+ * Extends the base IAuthProvider with methods specific to basic auth
+ */
+export interface IBasicAuthProvider extends IAuthProvider {
+	/**
+	 * Get the username used for basic authentication
+	 */
+	getUsername(): string;
+
+	/**
+	 * Get the password used for basic authentication
+	 */
+	getPassword(): string;
+}

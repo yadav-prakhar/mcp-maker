@@ -1,0 +1,40 @@
+import { IAuthProvider } from "./interfaces/IAuthProvider.js";
+
+/**
+ * Service class for handling authentication
+ */
+export class AuthService {
+	private authProvider: IAuthProvider;
+
+	/**
+	 * Create a new AuthService
+	 * @param authProvider - The authentication provider to use
+	 */
+	constructor(authProvider: IAuthProvider) {
+		this.authProvider = authProvider;
+	}
+
+	/**
+	 * Get authentication headers for API requests
+	 * @returns Headers for authenticated requests
+	 */
+	async getAuthHeaders(): Promise<Record<string, string>> {
+		return this.authProvider.getAuthHeaders();
+	}
+
+	/**
+	 * Check if the current authentication is valid
+	 * @returns True if authentication is valid
+	 */
+	async isValid(): Promise<boolean> {
+		return this.authProvider.isValid();
+	}
+
+	/**
+	 * Get the type of authentication being used
+	 * @returns The authentication type
+	 */
+	getAuthType(): string {
+		return this.authProvider.getType();
+	}
+}

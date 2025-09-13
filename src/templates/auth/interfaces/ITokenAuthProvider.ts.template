@@ -1,0 +1,22 @@
+import { IAuthProvider } from "./IAuthProvider.js";
+
+/**
+ * Token Authentication Provider interface
+ * Extends the base IAuthProvider with methods specific to token auth
+ */
+export interface ITokenAuthProvider extends IAuthProvider {
+	/**
+	 * Get the current token
+	 */
+	getToken(): string;
+
+	/**
+	 * Check if the token is expired
+	 */
+	isTokenExpired(): boolean;
+
+	/**
+	 * Refresh the token
+	 */
+	refreshToken(): Promise<string>;
+}

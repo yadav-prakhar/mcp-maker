@@ -1,0 +1,115 @@
+import { ITokenAuthProvider } from "../interfaces/ITokenAuthProvider.js";
+import { logger } from "../../utils/logger.js";
+
+/**
+ * Token Authentication Provider implementation
+ * Uses a token for authentication with API services
+ */
+export class TokenAuthProvider implements ITokenAuthProvider {
+	private baseUrl: string;
+	private token: string;
+	private tokenExpiry: Date | null = null;
+	private username: string;
+	private password: string;
+
+	/**
+	 * Create a new TokenAuthProvider
+	 * @param baseUrl - The base URL of the API service
+	 * @param username - The username for token generation
+	 * @param password - The password for token generation
+	 * @param initialToken - Optional initial token
+	 */
+	constructor(baseUrl: string, username: string, password: string, initialToken?: string) {
+		this.baseUrl = baseUrl;
+		this.username = username;
+		this.password = password;
+		this.token = initialToken || "";
+	}
+
+	/**
+	 * Get authentication headers for API requests
+	 * @returns Authorization header with token
+	 */
+	async getAuthHeaders(): Promise<Record<string, string>> {
+		// If token is expired or not set, refresh it
+		if (!this.token || this.isTokenExpired()) {
+			await this.refreshToken();
+		}
+
+		return {
+			Authorization: `Bearer ${this.token}`,
+		};
+	}
+
+	/**
+	 * Check if the current authentication is valid
+	 * @returns True if token exists and is not expired
+	 */
+	async isValid(): Promise<boolean> {
+		return Boolean(this.token) && !this.isTokenExpired();
+	}
+
+	/**
+	 * Get the type of authentication provider
+	 * @returns 'token'
+	 */
+	getType(): string {
+		return "token";
+	}
+
+	/**
+	 * Get the current token
+	 * @returns The token
+	 */
+	getToken(): string {
+		return this.token;
+	}
+
+	/**
+	 * Check if the token is expired
+	 * @returns True if the token is expired, false otherwise
+	 */
+	isTokenExpired(): boolean {
+		if (!this.tokenExpiry) {
+			return true;
+		}
+
+		// Consider token expired 5 minutes before actual expiry
+		const now = new Date();
+		const expiryWithBuffer = new Date(this.tokenExpiry.getTime() - 5 * 60 * 1000);
+		return now >= expiryWithBuffer;
+	}
+
+	/**
+	 * Refresh the token
+	 * @returns A new valid token
+	 */
+	async refreshToken(): Promise<string> {
+		try {
+			// Implement token refresh logic for your specific API
+			// This is a placeholder implementation
+			logger.info("Refreshing token");
+			
+			// Example implementation:
+			// const response = await fetch(`${this.baseUrl}/token`, {
+			//   method: 'POST',
+			//   headers: { 'Content-Type': 'application/json' },
+			//   body: JSON.stringify({ username: this.username, password: this.password })
+			// });
+			// const data = await response.json();
+			// this.token = data.token;
+			// if (data.expiresIn) {
+			//   this.tokenExpiry = new Date(Date.now() + data.expiresIn * 1000);
+			// }
+			
+			// For demonstration purposes:
+			this.token = "example-token-" + Date.now();
+			this.tokenExpiry = new Date(Date.now() + 3600 * 1000); // 1 hour expiry
+			
+			return this.token;
+		} catch (error) {
+			logger.error("Token refresh failed", { error });
+			throw error;
+		}
+	}
+}

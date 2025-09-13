@@ -7,6 +7,7 @@ import { displayHelp } from "./commands/help-commands.js";
 import { createServer } from "./commands/create.js";
 import { addTool } from "./commands/add-tool.js";
 import { addService } from "./commands/add-service.js";
+import { addAuth } from "./commands/add-auth.js";
 
 // Create the CLI program
 const program = new Command();
@@ -56,6 +57,9 @@ addCommand.command("tool").description("Add a new tool to an existing MCP server
 
 // Add service command
 addCommand.command("service").description("Add a new service to an existing MCP server").argument("[name]", "service name").action(addService);
+
+// Add auth command
+addCommand.command("auth").description("Add authentication to an existing MCP server").action(addAuth);
 
 // Add help command
 const helpCommand = program.command("help");

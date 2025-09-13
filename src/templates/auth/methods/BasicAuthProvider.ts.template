@@ -1,0 +1,64 @@
+import { IBasicAuthProvider } from "../interfaces/IBasicAuthProvider.js";
+
+/**
+ * Basic Authentication Provider implementation
+ * Uses username and password for authentication
+ */
+export class BasicAuthProvider implements IBasicAuthProvider {
+	private username: string;
+	private password: string;
+
+	/**
+	 * Create a new BasicAuthProvider
+	 * @param username - The username for basic auth
+	 * @param password - The password for basic auth
+	 */
+	constructor(username: string, password: string) {
+		this.username = username;
+		this.password = password;
+	}
+
+	/**
+	 * Get authentication headers for API requests
+	 * @returns Authorization header with Basic auth
+	 */
+	async getAuthHeaders(): Promise<Record<string, string>> {
+		const authString = `${this.username}:${this.password}`;
+		const base64Auth = Buffer.from(authString).toString("base64");
+		return {
+			Authorization: `Basic ${base64Auth}`,
+		};
+	}
+
+	/**
+	 * Check if the current authentication is valid
+	 * @returns True if username and password are provided
+	 */
+	async isValid(): Promise<boolean> {
+		return Boolean(this.username && this.password);
+	}
+
+	/**
+	 * Get the type of authentication provider
+	 * @returns 'basic'
+	 */
+	getType(): string {
+		return "basic";
+	}
+
+	/**
+	 * Get the username used for basic authentication
+	 * @returns The username
+	 */
+	getUsername(): string {
+		return this.username;
+	}
+
+	/**
+	 * Get the password used for basic authentication
+	 * @returns The password
+	 */
+	getPassword(): string {
+		return this.password;
+	}
+}

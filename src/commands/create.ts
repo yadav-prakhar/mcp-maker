@@ -283,6 +283,8 @@ You can now:
    mcp add tool <tool-name>
 3. Add services using:
    mcp add service <service-name>
+4. Add authentication layer using:
+   mcp add auth
       `)
 			);
 		} else {
@@ -298,6 +300,8 @@ You can now:
    mcp add tool <tool-name>
 5. Add services using:
    mcp add service <service-name>
+6. Add authentication layer using:
+   mcp add auth
       `)
 			);
 		}

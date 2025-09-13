@@ -1,0 +1,37 @@
+import { IAuthProvider } from "./IAuthProvider.js";
+
+/**
+ * OAuth Authentication Provider interface
+ * Extends the base IAuthProvider with methods specific to OAuth
+ */
+export interface IOAuthProvider extends IAuthProvider {
+	/**
+	 * Get the current access token
+	 */
+	getAccessToken(): string;
+
+	/**
+	 * Get the refresh token
+	 */
+	getRefreshToken(): string;
+
+	/**
+	 * Check if the access token is expired
+	 */
+	isAccessTokenExpired(): boolean;
+
+	/**
+	 * Get the client ID used for OAuth
+	 */
+	getClientId(): string;
+
+	/**
+	 * Get the client secret used for OAuth
+	 */
+	getClientSecret(): string;
+
+	/**
+	 * Refresh the access token
+	 */
+	refreshAccessToken(): Promise<string>;
+}
