@@ -130,7 +130,7 @@ export function addGNUStyleHelp(program: Command): void {
 
 		// Add reporting bugs section
 		helpText += chalk.bold("REPORTING BUGS\n");
-		helpText += `  Report bugs to: <your-email@example.com>\n\n`;
+		helpText += `  Report bugs to: https://github.com/yadav-prakhar/mcp-maker/issues\n\n`;
 
 		// Add copyright
 		helpText += chalk.bold("COPYRIGHT\n");

@@ -33,7 +33,7 @@ export function displayMainHelp(): void {
 	console.log("    Add basic authentication to an existing MCP server");
 
 	console.log(chalk.bold("\nREPORTING BUGS"));
-	console.log("  Report bugs to: <your-email@example.com>");
+	console.log("  Report bugs to: https://github.com/yadav-prakhar/mcp-maker/issues");
 
 	console.log(chalk.bold("\nCOPYRIGHT"));
 	console.log(`  Copyright © ${new Date().getFullYear()} Prakhar Yadav.`);

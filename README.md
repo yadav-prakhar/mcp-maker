@@ -34,6 +34,7 @@ A CLI utility to quickly create and manage TypeScript MCP (Model Context Protoco
   - [Create a New MCP Server](#create-a-new-mcp-server)
   - [Add a Tool](#add-a-tool)
   - [Add a Service](#add-a-service)
+  - [Add a Prompt](#add-a-prompt)
   - [Add Authentication](#add-authentication)
 - [Generated MCP Server Project Structure](#%EF%B8%8F-generated-mcp-server-project-structure)
 - [Contributing](#-contributing)
@@ -50,6 +51,7 @@ Whether you're creating a new MCP server from scratch or adding tools and servic
 - **Quick Project Scaffolding**: Create a fully structured MCP server project with a single command
 - **Automated Tool Creation**: Add new tools with proper structure and automatic registration in the toolHandler
 - **Service Management**: Add new services with proper structure and automatic registration
+- **Prompt Creation**: Add new MCP-compatible prompts with proper structure and automatic registration
 - **Authentication Support**: Add multiple authentication types (Basic, Token, OAuth) to your MCP server
 - **Consistent Structure**: Ensures all projects follow the same structure and patterns
 - **TypeScript Support**: Full TypeScript support with proper type definitions
@@ -144,6 +146,28 @@ This will:
 3. Update the main services index to include the new service
 4. Set up proper TypeScript types and interfaces
 
+### Add a Prompt
+
+```bash
+mcp-maker add prompt
+```
+
+#### Options
+- `-h, --help`: Display help for the command
+
+#### Example
+
+```bash
+cd my-mcp-server
+mcp-maker add prompt user-guidance
+```
+
+This will:
+1. Create a new prompt directory in `src/prompts/user-guidance`
+2. Create the prompt implementation, index, and README files
+3. Update the main prompts index to include the new prompt
+4. Set up proper MCP-compatible prompt structure
+
 ### Add Authentication
 
 ```bash
@@ -185,6 +209,12 @@ my-mcp-server/
 │   │   └── <service-name>/ # Each service in its own directory
 │   │       ├── index.ts   # Service implementation
 │   │       └── types.ts   # Type definitions for the service
+│   │
+│   ├── prompts/           # MCP-compatible prompts
+│   │   └── <prompt-name>/ # Each prompt in its own directory
+│   │       ├── index.ts   # Prompt export in MCP format
+│   │       ├── <name>Prompt.ts # Prompt implementation
+│   │       └── README.md  # Documentation for the prompt
 │   │
 │   ├── auth/              # Authentication (when added)
 │   │   ├── interfaces/    # Authentication interfaces
