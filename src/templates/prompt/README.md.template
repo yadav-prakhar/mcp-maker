@@ -1,0 +1,31 @@
+# {{pascalName}}
+
+> {{description}}
+
+## Overview
+
+[Provide a detailed overview of what this prompt does and when to use it]
+
+## Features
+
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+
+## Usage
+
+This prompt is available as an MCP prompt (`{{name}}`) and can be used with MCP-compatible clients.
+
+### Parameters
+
+[Document the parameters this prompt accepts]
+
+### Example
+
+```typescript
+// Example code showing how to use this prompt
+```
+
+## Best Practices
+
+[Provide best practices for using this prompt]

@@ -1,0 +1,37 @@
+/**
+ * {{pascalName}} Prompt - MCP Format
+ *
+ * {{description}}
+ */
+
+import { {{camelName}}Prompt } from "./{{fileName}}Prompt.js";
+
+export const {{camelName}}PromptMcp = {
+  name: "{{name}}",
+  description: "{{description}}",
+  model: "default",
+  parameters: {
+    // Add your parameters here
+    // example_param: {
+    //   type: "string",
+    //   description: "Example parameter",
+    // },
+  },
+  messages: [
+    {
+      role: "user",
+      content: {
+        type: "text",
+        text: {{camelName}}Prompt,
+      },
+    },
+  ],
+  examples: [
+    {
+      parameters: {
+        // Add example parameters here
+      },
+      description: "Example usage of {{name}}",
+    },
+  ],
+};

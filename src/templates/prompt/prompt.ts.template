@@ -1,0 +1,19 @@
+/**
+ * {{pascalName}} Prompt
+ *
+ * {{description}}
+ */
+
+export const {{camelName}}Prompt = `
+# {{pascalName}}
+
+{{description}}
+
+## Instructions
+
+[Add detailed instructions for the prompt here]
+
+## Example Usage
+
+[Add example usage here]
+`;

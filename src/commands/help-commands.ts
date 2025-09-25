@@ -122,6 +122,7 @@ export function displayAddHelp(): void {
 	console.log(`  ${chalk.green("tool")}                Add a new tool to an existing MCP server`);
 	console.log(`  ${chalk.green("service")}             Add a new service to an existing MCP server`);
 	console.log(`  ${chalk.green("auth")}                Add authentication to an existing MCP server`);
+	console.log(`  ${chalk.green("prompt")}              Add a new prompt to an existing MCP server`);
 
 	console.log(chalk.bold("\nEXAMPLES"));
 	console.log(`  ${chalk.cyan("mcp-maker add tool my-tool")}`);
@@ -129,7 +130,9 @@ export function displayAddHelp(): void {
 	console.log(`  ${chalk.cyan("mcp-maker add service my-service")}`);
 	console.log('    Add a new service named "my-service" to an existing MCP server');
 	console.log(`  ${chalk.cyan("mcp-maker add auth --all")}`);
-	console.log("    Add all authentication types to an existing MCP server\n");
+	console.log("    Add all authentication types to an existing MCP server");
+	console.log(`  ${chalk.cyan("mcp-maker add prompt my-prompt")}`);
+	console.log('    Add a new prompt named "my-prompt" to an existing MCP server\n');
 }
 
 /**
@@ -213,6 +216,31 @@ export function displayAddAuthHelp(): void {
 }
 
 /**
+ * Display help for the add prompt command in GNU style
+ */
+export function displayAddPromptHelp(): void {
+	console.log(chalk.bold("\nNAME"));
+	console.log("  mcp-maker add prompt - Add a new prompt to an existing MCP server");
+
+	console.log(chalk.bold("\nSYNOPSIS"));
+	console.log("  mcp-maker add prompt [OPTION]... [NAME]");
+
+	console.log(chalk.bold("\nDESCRIPTION"));
+	console.log("  Add a new prompt to an existing MCP server");
+	console.log("  Creates a prompt in the prompts folder with its own dedicated subfolder");
+
+	console.log(chalk.bold("\nARGUMENTS"));
+	console.log(`  ${chalk.green("NAME")}                 Name of the prompt (optional, will prompt if not provided)`);
+
+	console.log(chalk.bold("\nOPTIONS"));
+	console.log(`  ${chalk.green("-h, --help")}             display help information`);
+
+	console.log(chalk.bold("\nEXAMPLES"));
+	console.log(`  ${chalk.cyan("mcp-maker add prompt my-prompt")}`);
+	console.log('    Add a new prompt named "my-prompt" to an existing MCP server\n');
+}
+
+/**
  * Display help for a specific command
  * @param command - The command to display help for
  * @param subcommand - The subcommand to display help for
@@ -238,6 +266,8 @@ export function displayHelp(command?: string, subcommand?: string): void {
 				displayAddServiceHelp();
 			} else if (subcommand === "auth") {
 				displayAddAuthHelp();
+			} else if (subcommand === "prompt") {
+				displayAddPromptHelp();
 			} else {
 				displayAddHelp();
 			}

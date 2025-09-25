@@ -8,6 +8,7 @@ import { createServer } from "./commands/create.js";
 import { addTool } from "./commands/add-tool.js";
 import { addService } from "./commands/add-service.js";
 import { addAuth } from "./commands/add-auth.js";
+import { addPrompt } from "./commands/add-prompt.js";
 
 // Create the CLI program
 const program = new Command();
@@ -23,9 +24,9 @@ program
 program.addHelpCommand("help [command]", "Display help for a command");
 
 // Custom help handler for both `mcp help <command>` and `mcp <command> --help` styles
-program.on("option:help", function (this: any) {
+program.on("option:help", function (this: { name(): string; _args?: { value: string }[] }) {
 	// This will be called when --help is used
-	const parent = this.parent;
+	// Note: parent is not used in this function
 	const command = this.name();
 	const subcommand = this._args && this._args.length > 0 ? this._args[0].value : undefined;
 
@@ -61,6 +62,9 @@ addCommand.command("service").description("Add a new service to an existing MCP 
 // Add auth command
 addCommand.command("auth").description("Add authentication to an existing MCP server").action(addAuth);
 
+// Add prompt command
+addCommand.command("prompt").description("Add a new prompt to an existing MCP server").argument("[name]", "prompt name").action(addPrompt);
+
 // Add help command
 const helpCommand = program.command("help");
 helpCommand
@@ -75,15 +79,14 @@ const overrideHelpOption = (cmd: Command) => {
 	cmd.helpOption("-h, --help", "display help information");
 
 	// Handle the help option
-	cmd.on("option:help", function (this: any) {
-		const fullCommand = [];
-		const self: any = this;
+	cmd.on("option:help", () => {
+		const fullCommand: string[] = [];
 
 		// Build the full command path
-		let current = self;
-		while (current && current.name() !== "mcp-maker") {
-			fullCommand.unshift(current.name());
-			current = current.parent;
+		let commandObj: Command | undefined = cmd;
+		while (commandObj && commandObj.name() !== "mcp-maker") {
+			fullCommand.unshift(commandObj.name());
+			commandObj = commandObj.parent || undefined;
 		}
 
 		// Display help using GNU-style formatting
